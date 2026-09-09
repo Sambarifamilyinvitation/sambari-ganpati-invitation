@@ -2,8 +2,8 @@
 <html lang="mr">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <meta name="theme-color" content="#2a0208" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#f6eee3" />
   <title>सांबरी परिवार | श्री गणेशोत्सव निमंत्रण</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -11,67 +11,131 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <main class="invitation" id="invitation">
-    <div class="ambient ambient-one"></div>
-    <div class="ambient ambient-two"></div>
 
-    <span class="particle p1"></span>
-    <span class="particle p2"></span>
-    <span class="particle p3"></span>
-    <span class="particle p4"></span>
-    <span class="particle p5"></span>
+  <div class="ambient ambient-one"></div>
+  <div class="ambient ambient-two"></div>
 
-    <div class="content">
-      <div class="mantra fade-up">॥ श्री गणेशाय नमः ॥</div>
-      <div class="temple-decoration fade-up delay-1">❈ 🪔 ❈</div>
+  <main class="story">
 
-      <div class="ganpati-wrap fade-up delay-2">
-        <img src="assets/ganpati.png" class="ganpati" alt="श्री गणेश" onerror="this.style.display='none';document.querySelector('.ganpati-placeholder').style.display='grid';">
-        <div class="ganpati-placeholder">ॐ</div>
+    <!-- PAGE 1 -->
+    <section class="page hero-page">
+      <div class="temple-line top-line"></div>
+
+      <div class="glass-shell hero-glass reveal">
+        <p class="mantra">॥ श्री गणेशाय नमः ॥</p>
+
+        <div class="ganpati-stage parallax-card">
+          <div class="halo"></div>
+          <img src="ganpati.png" alt="श्री गणेश" class="ganpati-image" />
+        </div>
+
+        <p class="eyebrow">शुभ मंगलमय श्री गणेशोत्सव</p>
+        <h1>सांबरी परिवार</h1>
+        <div class="gold-rule"></div>
+        <h2>आपणास सहर्ष आमंत्रित करीत आहे</h2>
+
+        <button class="glass-pill scroll-next" data-target="#invite">
+          निमंत्रण पहा
+          <span>⌄</span>
+        </button>
       </div>
 
-      <div class="family fade-up delay-2">सांबरी परिवार</div>
-      <div class="main-title fade-up delay-3">श्री गणेशोत्सव निमंत्रण</div>
-      <div class="gold-divider fade-up delay-3"></div>
+      <div class="temple-line bottom-line"></div>
+    </section>
 
-      <section class="glass-card fade-up delay-4">
-        <div class="invite-heading">सस्नेह निमंत्रण</div>
-        <p class="message">
-          आमच्या घरी विराजमान होणाऱ्या
-          <span class="highlight">लाडक्या श्री गणरायाच्या ५ दिवसांच्या मंगलमय गणेशोत्सवानिमित्त</span>
-          आपणास व आपल्या परिवारास <strong>सांबरी परिवारातर्फे</strong> सहर्ष आमंत्रित करीत आहोत.
+
+    <!-- PAGE 2 -->
+    <section class="page invitation-page" id="invite">
+      <div class="section-glow"></div>
+
+      <div class="glass-shell reveal">
+        <p class="kicker">सस्नेह निमंत्रण</p>
+        <h2 class="section-title">श्रींच्या दर्शनासाठी आपले स्वागत आहे</h2>
+
+        <p class="invite-copy">
+          आमच्या घरी यंदा लाडक्या बाप्पाचे
+          <span>५ दिवसांसाठी</span> मंगलमय आगमन झाले आहे.
+          या पवित्र प्रसंगी आपण कुटुंबियांसोबत आवर्जून उपस्थित राहून
+          श्री गणरायाचे दर्शन, आरती व आशीर्वादाचा लाभ घ्यावा,
+          ही सांबरी परिवाराची मनःपूर्वक विनंती.
         </p>
-        <p class="message compact">
-          आपण सहकुटुंब उपस्थित राहून श्री गणरायाचे दर्शन, आरती व आशीर्वादाचा लाभ घ्यावा, ही आमची मनःपूर्वक इच्छा.
+
+        <div class="info-grid">
+          <article class="mini-glass tilt">
+            <small>श्रींचे आगमन</small>
+            <strong id="dateText">१४ सप्टेंबर २०२६</strong>
+          </article>
+
+          <article class="mini-glass tilt">
+            <small>उत्सव कालावधी</small>
+            <strong>५ दिवस</strong>
+          </article>
+        </div>
+
+        <p class="blessing">
+          आपल्या प्रेमळ उपस्थितीने या मंगलमय सोहळ्याची शोभा अधिक वाढेल.
         </p>
-      </section>
+      </div>
+    </section>
 
-      <section class="details fade-up delay-5">
-        <div class="detail-box">
-          <span>📅 श्रींचे आगमन</span>
-          <strong id="dateText">तारीख येथे लिहा</strong>
+
+    <!-- PAGE 3 -->
+    <section class="page location-page">
+      <div class="glass-shell reveal">
+        <p class="kicker">आपले आगमन अपेक्षित</p>
+        <h2 class="section-title">स्थळ व मार्ग</h2>
+
+        <div class="location-orb">
+          <span class="pin">⌖</span>
         </div>
-        <div class="detail-box">
-          <span>🪔 दर्शनाची वेळ</span>
-          <strong id="timeText">वेळ येथे लिहा</strong>
+
+        <div class="address-card mini-glass">
+          <small>सांबरी परिवार निवासस्थान</small>
+          <p id="addressText">
+            साई अपार्टमेंट, पहिला मजला, रूम नं. १०२<br>
+            चंदनबाग, कामतघर, भिवंडी
+          </p>
         </div>
-      </section>
 
-      <section class="location-card fade-up delay-5">
-        <div class="location-title">📍 स्थळ</div>
-        <div class="location-text" id="addressText">सांबरी परिवार निवासस्थान<br>कामतघर, भिवंडी</div>
-      </section>
+        <a id="mapButton"
+           class="primary-button"
+           href="https://maps.app.goo.gl/7waasR8gPBMjv5v5A"
+           target="_blank"
+           rel="noopener noreferrer">
+          Google Maps वर स्थान पहा
+        </a>
 
-      <a id="mapButton" href="#" target="_blank" rel="noopener" class="map-btn fade-up delay-6">
-        📍 Google Maps वर स्थान पहा
-      </a>
+        <div class="route-hint">
+          <span></span>
+          <p>बटणावर टॅप करून थेट Google Maps मध्ये मार्ग उघडा.</p>
+        </div>
+      </div>
+    </section>
 
-      <div class="final-message fade-up delay-6">आपल्या उपस्थितीने या मंगलमय सोहळ्याची शोभा वाढवावी.</div>
-      <div class="morya fade-up delay-6">गणपती बाप्पा मोरया! 🙏</div>
-      <div class="family-footer fade-up delay-6">🪔 सांबरी परिवार 🪔</div>
 
-      <button class="share-btn fade-up delay-6" type="button" onclick="shareInvitation()">📲 निमंत्रण शेअर करा</button>
-    </div>
+    <!-- PAGE 4 -->
+    <section class="page closing-page">
+      <div class="glass-shell closing-glass reveal">
+        <div class="lotus-mark">✦</div>
+
+        <p class="mantra">॥ मंगलमूर्ती मोरया ॥</p>
+        <h2 class="closing-title">गणपती बाप्पा मोरया!</h2>
+
+        <p class="closing-copy">
+          श्री गणरायाच्या मंगलमय सान्निध्यात
+          आपली उपस्थिती आम्हाला आनंद देईल.
+        </p>
+
+        <div class="family-sign">— सांबरी परिवार —</div>
+
+        <button class="primary-button share-btn" onclick="shareInvitation()">
+          निमंत्रण शेअर करा
+        </button>
+      </div>
+
+      <p class="footer-note">ॐ गं गणपतये नमः</p>
+    </section>
+
   </main>
 
   <script src="script.js"></script>
