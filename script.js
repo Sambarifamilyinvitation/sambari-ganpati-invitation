@@ -18,16 +18,12 @@ document.addEventListener("DOMContentLoaded", () => {
     mapButton.rel = "noopener noreferrer";
   }
 
-  const revealElements = document.querySelectorAll(".reveal");
+  const revealElements = document.querySelectorAll(".reveal-3d");
 
   const observer = new IntersectionObserver(
     (entries) => {
       entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add("visible");
-        } else {
-          entry.target.classList.remove("visible");
-        }
+        entry.target.classList.toggle("visible", entry.isIntersecting);
       });
     },
     { threshold: 0.28 }
@@ -35,29 +31,81 @@ document.addEventListener("DOMContentLoaded", () => {
 
   revealElements.forEach((el) => observer.observe(el));
 
-  document.querySelectorAll(".scroll-next").forEach((button) => {
+  document.querySelectorAll(".next-arrow").forEach((button) => {
     button.addEventListener("click", () => {
-      const target = document.querySelector(button.dataset.target);
-      if (target) target.scrollIntoView({ behavior: "smooth" });
+      const target = document.querySelector(button.dataset.next);
+      if (target) target.scrollIntoView({ behavior: "smooth", block: "start" });
     });
   });
 
-  const interactiveCards = document.querySelectorAll(".tilt, .parallax-card");
+  const depthLayers = document.querySelectorAll(".depth-layer");
 
-  interactiveCards.forEach((card) => {
-    card.addEventListener("pointermove", (e) => {
+  depthLayers.forEach((layer) => {
+    layer.addEventListener("pointermove", (event) => {
+      const rect = layer.getBoundingClientRect();
+      const x = (event.clientX - rect.left) / rect.width - 0.5;
+      const y = (event.clientY - rect.top) / rect.height - 0.5;
+
+      layer.style.transform =
+        `perspective(800px)
+         rotateX(${y * -8}deg)
+         rotateY(${x * 10}deg)
+         translateZ(16px)`;
+    });
+
+    layer.addEventListener("pointerleave", () => {
+      layer.style.transform =
+        "perspective(800px) rotateX(0deg) rotateY(0deg) translateZ(0)";
+    });
+  });
+
+  const templePhoto = document.querySelector(".temple-photo");
+  const cards = document.querySelectorAll(".glass-card");
+
+  let ticking = false;
+
+  function updateScrollMotion() {
+    const scrollY = window.scrollY;
+    const viewport = window.innerHeight || 1;
+
+    if (templePhoto) {
+      const bgShift = (scrollY / viewport) * 18;
+      const bgScale = 1.08 + Math.min(scrollY / (viewport * 20), 0.025);
+      templePhoto.style.transform =
+        `translate3d(0, ${bgShift}px, 0) scale(${bgScale})`;
+    }
+
+    cards.forEach((card) => {
       const rect = card.getBoundingClientRect();
-      const px = (e.clientX - rect.left) / rect.width - 0.5;
-      const py = (e.clientY - rect.top) / rect.height - 0.5;
-      card.style.transform =
-        `perspective(700px) rotateX(${py * -8}deg) rotateY(${px * 10}deg) translateZ(8px)`;
+      const center = rect.top + rect.height / 2;
+      const distance = (center - viewport / 2) / viewport;
+      const rotateX = Math.max(-6, Math.min(6, distance * -7));
+      const translateZ = Math.max(-55, -Math.abs(distance) * 70);
+
+      if (card.classList.contains("visible")) {
+        card.style.transform =
+          `perspective(1200px)
+           rotateX(${rotateX}deg)
+           translateZ(${translateZ}px)
+           scale(${1 - Math.min(Math.abs(distance) * 0.035, 0.035)})`;
+      }
     });
 
-    card.addEventListener("pointerleave", () => {
-      card.style.transform =
-        "perspective(700px) rotateX(0deg) rotateY(0deg) translateZ(0)";
-    });
-  });
+    ticking = false;
+  }
+
+  window.addEventListener(
+    "scroll",
+    () => {
+      if (!ticking) {
+        requestAnimationFrame(updateScrollMotion);
+        ticking = true;
+      }
+    },
+    { passive: true }
+  );
+
+  updateScrollMotion();
 });
 
 async function shareInvitation() {
