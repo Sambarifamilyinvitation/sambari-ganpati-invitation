@@ -107,7 +107,7 @@ body::before{
   border-radius:32px;
   text-align:center;
   background:
-    linear-gradient(145deg,rgba(255,255,255,.68),rgba(255,255,255,.28));
+    linear-gradient(145deg,rgba(255,255,255,.56),rgba(255,255,255,.20));
   border:1px solid var(--border);
   backdrop-filter:blur(28px) saturate(150%);
   -webkit-backdrop-filter:blur(28px) saturate(150%);
@@ -506,3 +506,230 @@ h1{
   }
   .glass-pill span{animation:none}
 }
+
+
+/* ===== Animated motion background behind the liquid-glass pages ===== */
+
+.motion-bg{
+  position:fixed;
+  inset:0;
+  overflow:hidden;
+  pointer-events:none;
+  z-index:-2;
+  background:
+    radial-gradient(circle at 50% -15%, rgba(255,255,255,.88), transparent 42%),
+    linear-gradient(180deg, rgba(249,245,239,.92), rgba(233,223,210,.92));
+}
+
+.motion-orb,
+.motion-ring,
+.shimmer-wave{
+  position:absolute;
+  will-change:transform, opacity;
+}
+
+.motion-orb{
+  border-radius:50%;
+  filter:blur(8px);
+  opacity:.62;
+  mix-blend-mode:screen;
+}
+
+.orb-a{
+  width:260px;
+  height:260px;
+  top:8%;
+  left:-90px;
+  background:
+    radial-gradient(circle at 35% 30%,
+      rgba(255,255,255,.95) 0 13%,
+      rgba(255,232,200,.72) 35%,
+      rgba(214,175,111,.12) 68%,
+      transparent 72%);
+  animation:floatA 13s ease-in-out infinite alternate;
+}
+
+.orb-b{
+  width:310px;
+  height:310px;
+  right:-130px;
+  top:38%;
+  background:
+    radial-gradient(circle at 42% 36%,
+      rgba(255,255,255,.92) 0 12%,
+      rgba(248,219,179,.62) 34%,
+      rgba(192,147,79,.10) 67%,
+      transparent 73%);
+  animation:floatB 17s ease-in-out infinite alternate;
+}
+
+.orb-c{
+  width:230px;
+  height:230px;
+  left:18%;
+  bottom:-90px;
+  background:
+    radial-gradient(circle,
+      rgba(255,255,255,.85) 0 14%,
+      rgba(235,210,175,.54) 37%,
+      rgba(180,134,69,.08) 68%,
+      transparent 74%);
+  animation:floatC 15s ease-in-out infinite alternate;
+}
+
+.motion-ring{
+  border-radius:50%;
+  border:1px solid rgba(168,121,53,.15);
+  box-shadow:
+    0 0 80px rgba(255,255,255,.45) inset,
+    0 0 70px rgba(181,136,74,.08);
+  opacity:.62;
+}
+
+.ring-a{
+  width:360px;
+  height:360px;
+  left:50%;
+  top:14%;
+  transform:translateX(-50%);
+  animation:ringDrift 18s linear infinite;
+}
+
+.ring-b{
+  width:470px;
+  height:470px;
+  left:50%;
+  bottom:-210px;
+  transform:translateX(-50%);
+  animation:ringDriftReverse 22s linear infinite;
+}
+
+.shimmer-wave{
+  width:150%;
+  height:120px;
+  left:-25%;
+  border-radius:50%;
+  filter:blur(22px);
+  opacity:.24;
+  background:linear-gradient(
+    90deg,
+    transparent,
+    rgba(255,255,255,.72),
+    rgba(228,195,143,.28),
+    rgba(255,255,255,.70),
+    transparent
+  );
+}
+
+.wave-a{
+  top:28%;
+  transform:rotate(-12deg);
+  animation:waveMove 12s ease-in-out infinite alternate;
+}
+
+.wave-b{
+  top:68%;
+  transform:rotate(11deg);
+  animation:waveMoveReverse 14s ease-in-out infinite alternate;
+}
+
+/* Adds a subtle moving light reflection over each glass panel */
+.glass-shell{
+  overflow:hidden;
+}
+
+.glass-shell::after{
+  content:"";
+  position:absolute;
+  width:46%;
+  height:160%;
+  top:-30%;
+  left:-70%;
+  transform:rotate(18deg);
+  background:linear-gradient(
+    90deg,
+    transparent,
+    rgba(255,255,255,.08),
+    rgba(255,255,255,.48),
+    rgba(255,255,255,.12),
+    transparent
+  );
+  filter:blur(8px);
+  pointer-events:none;
+  animation:glassSweep 7.5s ease-in-out infinite;
+}
+
+/* Floating light dust for depth */
+.page::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  opacity:.28;
+  background-image:
+    radial-gradient(circle at 15% 24%, rgba(169,121,47,.40) 0 1px, transparent 1.6px),
+    radial-gradient(circle at 77% 18%, rgba(255,255,255,.85) 0 1.2px, transparent 1.8px),
+    radial-gradient(circle at 66% 74%, rgba(169,121,47,.30) 0 1px, transparent 1.6px),
+    radial-gradient(circle at 26% 82%, rgba(255,255,255,.75) 0 1px, transparent 1.6px);
+  background-size:110px 110px, 150px 150px, 135px 135px, 170px 170px;
+  animation:dustDrift 16s linear infinite;
+}
+
+@keyframes floatA{
+  0%{ transform:translate3d(0,0,0) scale(1); }
+  100%{ transform:translate3d(70px,90px,0) scale(1.12); }
+}
+
+@keyframes floatB{
+  0%{ transform:translate3d(0,0,0) scale(1.04); }
+  100%{ transform:translate3d(-90px,-70px,0) scale(.94); }
+}
+
+@keyframes floatC{
+  0%{ transform:translate3d(0,0,0) scale(.95); }
+  100%{ transform:translate3d(55px,-85px,0) scale(1.08); }
+}
+
+@keyframes ringDrift{
+  0%{ transform:translateX(-50%) rotate(0deg) scale(.96); opacity:.30; }
+  50%{ opacity:.62; }
+  100%{ transform:translateX(-50%) rotate(360deg) scale(1.06); opacity:.30; }
+}
+
+@keyframes ringDriftReverse{
+  0%{ transform:translateX(-50%) rotate(360deg) scale(1.04); }
+  100%{ transform:translateX(-50%) rotate(0deg) scale(.95); }
+}
+
+@keyframes waveMove{
+  0%{ transform:translate3d(-7%,0,0) rotate(-12deg); }
+  100%{ transform:translate3d(10%,22px,0) rotate(-8deg); }
+}
+
+@keyframes waveMoveReverse{
+  0%{ transform:translate3d(9%,0,0) rotate(11deg); }
+  100%{ transform:translate3d(-9%,-20px,0) rotate(7deg); }
+}
+
+@keyframes glassSweep{
+  0%,18%{ left:-70%; opacity:0; }
+  28%{ opacity:.70; }
+  55%{ left:130%; opacity:.28; }
+  100%{ left:130%; opacity:0; }
+}
+
+@keyframes dustDrift{
+  0%{ transform:translateY(0); }
+  50%{ transform:translateY(-18px); }
+  100%{ transform:translateY(0); }
+}
+
+@media (prefers-reduced-motion:reduce){
+  .motion-orb,
+  .motion-ring,
+  .shimmer-wave,
+  .glass-shell::after,
+  .page::after{
+    animation:none !important;
+  }
+  }
