@@ -1,0 +1,1268 @@
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+:root{
+  --gold:#d9a63d;
+  --gold-bright:#f2cb70;
+  --cream:#fff5df;
+  --brown:#40200f;
+  --deep:#1a0d07;
+  --glass:rgba(255,255,255,.15);
+  --glass-strong:rgba(255,255,255,.22);
+  --glass-border:rgba(255,238,201,.34);
+  --shadow:0 26px 70px rgba(0,0,0,.35);
+}
+
+html{
+  scroll-behavior:smooth;
+  scroll-snap-type:y mandatory;
+  background:#ead8bd;
+}
+
+body{
+  min-height:100%;
+  overflow-x:hidden;
+  font-family:"Noto Serif Devanagari",serif;
+  color:var(--cream);
+  background:#ead8bd;
+}
+
+button,a{
+  -webkit-tap-highlight-color:transparent;
+}
+
+.background{
+  position:fixed;
+  inset:0;
+  overflow:hidden;
+  z-index:0;
+  pointer-events:none;
+  background:
+    radial-gradient(circle at 50% 8%,rgba(255,252,242,.95),transparent 28%),
+    radial-gradient(circle at 15% 34%,rgba(255,244,220,.52),transparent 34%),
+    radial-gradient(circle at 85% 72%,rgba(194,151,95,.20),transparent 38%),
+    linear-gradient(180deg,#f5ead8 0%,#ecd9bc 50%,#dfc39a 100%);
+}
+
+/* No JPG: the existing temple-photo layer becomes a soft beige texture */
+.temple-photo{
+  position:absolute;
+  inset:-3%;
+  background-image:url("tirupati-temple.jpg");
+  background-size:cover;
+  background-position:center center;
+  transform:scale(1.04);
+  filter:saturate(.92) contrast(.98) brightness(.78);
+  will-change:transform;
+}
+
+/* The uploaded Tirupati image already contains the Balaji tilak,
+   so the CSS-made tilak is disabled. */
+.temple-photo::before,
+.temple-photo::after{
+  content:none !important;
+  display:none !important;
+}
+
+.temple-overlay{
+  position:absolute;
+  inset:0;
+  background:
+    linear-gradient(180deg,
+      rgba(245,232,211,.18),
+      rgba(227,199,159,.16) 46%,
+      rgba(108,67,28,.24) 100%),
+    radial-gradient(circle at 50% 22%,rgba(255,236,188,.14),transparent 42%);
+  box-shadow:
+    inset 0 0 90px rgba(89,54,21,.08),
+    inset 0 -90px 110px rgba(82,49,18,.16);
+}
+
+.gold-mist{
+  position:absolute;
+  width:380px;
+  height:380px;
+  border-radius:50%;
+  filter:blur(70px);
+  opacity:.28;
+  background:rgba(237,181,74,.65);
+}
+
+.mist-1{
+  top:-100px;
+  left:-160px;
+  animation:mistA 14s ease-in-out infinite alternate;
+}
+
+.mist-2{
+  right:-170px;
+  bottom:-120px;
+  animation:mistB 18s ease-in-out infinite alternate;
+}
+
+.light-orb{
+  position:absolute;
+  width:170px;
+  height:170px;
+  border-radius:50%;
+  filter:blur(30px);
+  opacity:.30;
+  background:radial-gradient(circle,rgba(255,237,177,.9),rgba(241,183,73,.22) 48%,transparent 70%);
+}
+
+.orb-1{
+  top:20%;
+  right:-40px;
+  animation:orbFloat1 12s ease-in-out infinite alternate;
+}
+
+.orb-2{
+  bottom:17%;
+  left:-55px;
+  animation:orbFloat2 15s ease-in-out infinite alternate;
+}
+
+.bells-layer{
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  z-index:20;
+}
+
+.bell{
+  position:absolute;
+  top:0;
+  width:34px;
+  transform-origin:50% 0%;
+  filter:drop-shadow(0 8px 10px rgba(0,0,0,.28));
+}
+
+.bell svg{
+  width:100%;
+  fill:url(#none);
+  fill:#e0ae4c;
+  stroke:#ffda82;
+  stroke-width:1.2;
+}
+
+.bell-left{
+  left:18px;
+  animation:bellSwing 4s ease-in-out infinite;
+}
+
+.bell-right{
+  right:18px;
+  animation:bellSwing 4.7s ease-in-out infinite reverse;
+}
+
+#invitation{
+  position:relative;
+  z-index:2;
+  width:100%;
+  max-width:480px;
+  margin:0 auto;
+  perspective:1400px;
+}
+
+.page{
+  position:relative;
+  width:100%;
+  min-height:100svh;
+  padding:28px 16px 90px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  scroll-snap-align:start;
+  scroll-snap-stop:always;
+  transform-style:preserve-3d;
+  overflow:hidden;
+}
+
+.page::before{
+  content:"";
+  position:absolute;
+  inset:12px;
+  border:1px solid rgba(238,190,92,.18);
+  border-radius:34px;
+  pointer-events:none;
+  box-shadow:inset 0 0 28px rgba(255,211,115,.05);
+}
+
+.glass-card{
+  position:relative;
+  width:100%;
+  padding:30px 20px;
+  border-radius:32px;
+  text-align:center;
+  overflow:hidden;
+  transform-style:preserve-3d;
+  backdrop-filter:blur(24px) saturate(135%);
+  -webkit-backdrop-filter:blur(24px) saturate(135%);
+  background:
+    linear-gradient(145deg,rgba(255,255,255,.20),rgba(255,255,255,.08)),
+    radial-gradient(circle at 20% 10%,rgba(255,236,184,.10),transparent 38%);
+  border:1px solid var(--glass-border);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.32),
+    inset 0 -1px 0 rgba(255,192,77,.08),
+    var(--shadow);
+}
+
+.glass-card::before{
+  content:"";
+  position:absolute;
+  inset:1px;
+  border-radius:31px;
+  background:linear-gradient(135deg,rgba(255,255,255,.13),transparent 42%);
+  pointer-events:none;
+}
+
+.glass-shine{
+  position:absolute;
+  width:40%;
+  height:180%;
+  top:-40%;
+  left:-70%;
+  transform:rotate(18deg);
+  background:linear-gradient(
+    90deg,
+    transparent,
+    rgba(255,255,255,.05),
+    rgba(255,247,223,.32),
+    rgba(255,255,255,.07),
+    transparent
+  );
+  filter:blur(7px);
+  animation:glassSweep 6.8s ease-in-out infinite;
+  pointer-events:none;
+}
+
+.calligraphy{
+  font-family:"Yatra One","Tiro Devanagari Marathi","Noto Serif Devanagari",serif;
+  letter-spacing:.2px;
+}
+
+.mantra{
+  color:var(--gold-bright);
+  font-size:17px;
+  text-shadow:0 2px 10px rgba(0,0,0,.4);
+}
+
+.hero-card{
+  padding-top:27px;
+}
+
+.ganpati-stage{
+  width:220px;
+  height:220px;
+  margin:14px auto 8px;
+  display:grid;
+  place-items:center;
+  position:relative;
+  border-radius:50%;
+  transform-style:preserve-3d;
+}
+
+.ganpati-halo{
+  position:absolute;
+  inset:13px;
+  border-radius:50%;
+  background:
+    radial-gradient(circle,rgba(255,239,186,.42),rgba(234,170,51,.14) 45%,transparent 70%);
+  box-shadow:
+    0 0 65px rgba(240,183,65,.24),
+    inset 0 0 38px rgba(255,245,210,.10);
+}
+
+.ganpati-stage::before,
+.ganpati-stage::after{
+  content:"";
+  position:absolute;
+  border-radius:50%;
+  border:1px solid rgba(238,188,79,.30);
+}
+
+.ganpati-stage::before{inset:0;}
+.ganpati-stage::after{inset:17px;}
+
+.ganpati-image{
+  position:relative;
+  z-index:2;
+  width:86%;
+  height:86%;
+  object-fit:contain;
+  transform:translateZ(45px);
+  filter:drop-shadow(0 18px 24px rgba(0,0,0,.35));
+}
+
+.mini-title{
+  color:#f9e9c5;
+  font-size:13px;
+  margin-top:8px;
+  opacity:.92;
+}
+
+.family-name{
+  color:#ffe3a2;
+  font-size:39px;
+  line-height:1.25;
+  margin-top:7px;
+  text-shadow:
+    0 2px 0 rgba(93,48,13,.4),
+    0 0 22px rgba(234,176,64,.18);
+}
+
+.ornament{
+  color:var(--gold);
+  margin:7px 0 8px;
+  font-size:18px;
+}
+
+.hero-card h2{
+  font-size:17px;
+  font-weight:500;
+  color:#fff0d2;
+  line-height:1.7;
+}
+
+.section-kicker{
+  color:var(--gold-bright);
+  font-size:23px;
+  margin-bottom:8px;
+}
+
+.section-heading{
+  font-family:"Tiro Devanagari Marathi",serif;
+  font-size:28px;
+  line-height:1.35;
+  color:#fff0cf;
+  font-weight:500;
+  margin-bottom:18px;
+}
+
+.invite-text{
+  font-family:"Mukta","Noto Serif Devanagari",serif;
+  font-size:18px;
+  line-height:1.95;
+  color:#fff7e8;
+  text-shadow:0 1px 5px rgba(0,0,0,.28);
+}
+
+.invite-text strong{
+  color:#ffd782;
+}
+
+.blessing-chip{
+  margin-top:22px;
+  padding:15px 16px;
+  border-radius:22px;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  text-align:left;
+  background:rgba(255,245,214,.10);
+  border:1px solid rgba(255,222,153,.22);
+  backdrop-filter:blur(18px);
+}
+
+.blessing-chip span{
+  width:42px;
+  height:42px;
+  flex:0 0 42px;
+  display:grid;
+  place-items:center;
+  border-radius:50%;
+  color:#ffd783;
+  font-size:24px;
+  border:1px solid rgba(255,220,145,.28);
+  background:rgba(255,255,255,.07);
+}
+
+.blessing-chip p{
+  color:#f8e9cb;
+  line-height:1.6;
+  font-size:13px;
+}
+
+.details-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+  margin-top:18px;
+}
+
+.mini-glass{
+  position:relative;
+  padding:17px 13px;
+  border-radius:22px;
+  background:linear-gradient(145deg,rgba(255,255,255,.17),rgba(255,255,255,.06));
+  border:1px solid rgba(255,225,161,.25);
+  backdrop-filter:blur(20px);
+  -webkit-backdrop-filter:blur(20px);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.22),
+    0 16px 34px rgba(0,0,0,.20);
+  transform-style:preserve-3d;
+}
+
+.mini-glass small{
+  display:block;
+  color:#e8cf9d;
+  font-size:12px;
+  margin-bottom:6px;
+}
+
+.mini-glass strong{
+  display:block;
+  color:#fff0cf;
+  font-size:15px;
+  line-height:1.5;
+}
+
+.address-box{
+  margin-top:12px;
+  display:flex;
+  gap:13px;
+  align-items:flex-start;
+  text-align:left;
+}
+
+.location-icon{
+  width:44px;
+  height:44px;
+  flex:0 0 44px;
+  border-radius:50%;
+  display:grid;
+  place-items:center;
+  color:#ffd679;
+  font-size:28px;
+  background:rgba(255,255,255,.08);
+  border:1px solid rgba(255,225,158,.22);
+}
+
+.address-box p{
+  font-family:"Mukta",sans-serif;
+  color:#fff5df;
+  line-height:1.7;
+  font-size:15px;
+}
+
+.glass-button{
+  margin-top:14px;
+  width:100%;
+  min-height:52px;
+  padding:13px 18px;
+  border:none;
+  border-radius:999px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  text-decoration:none;
+  cursor:pointer;
+  font-family:"Mukta",sans-serif;
+  font-size:16px;
+  font-weight:700;
+  color:#4a260e;
+  background:
+    linear-gradient(180deg,rgba(255,236,187,.95),rgba(223,166,65,.91));
+  border:1px solid rgba(255,239,195,.88);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.75),
+    0 14px 34px rgba(0,0,0,.28),
+    0 0 28px rgba(224,167,60,.14);
+}
+
+.final-card{
+  padding-top:40px;
+  padding-bottom:38px;
+}
+
+.sacred-symbol{
+  width:72px;
+  height:72px;
+  margin:0 auto 18px;
+  display:grid;
+  place-items:center;
+  border-radius:50%;
+  font-size:34px;
+  color:#ffd87e;
+  background:rgba(255,255,255,.08);
+  border:1px solid rgba(255,224,155,.25);
+  box-shadow:0 0 30px rgba(235,179,71,.14);
+}
+
+.final-title{
+  color:#ffe2a2;
+  font-size:34px;
+  line-height:1.35;
+  margin-top:8px;
+}
+
+.final-copy{
+  color:#fff2d7;
+  font-family:"Mukta",sans-serif;
+  font-size:18px;
+  line-height:1.85;
+  margin:17px auto;
+  max-width:300px;
+}
+
+.family-sign{
+  color:#ffd77c;
+  font-size:21px;
+  margin-bottom:10px;
+}
+
+.next-arrow{
+  position:absolute;
+  left:50%;
+  bottom:21px;
+  transform:translateX(-50%);
+  min-width:128px;
+  background:transparent;
+  border:none;
+  color:#fff0cb;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:1px;
+  cursor:pointer;
+  text-shadow:0 2px 8px rgba(0,0,0,.55);
+  z-index:6;
+}
+
+.next-arrow span{
+  font-family:"Mukta",sans-serif;
+  font-size:12px;
+  opacity:.82;
+}
+
+.next-arrow b{
+  font-size:34px;
+  line-height:.8;
+  font-weight:400;
+  color:#ffd575;
+  animation:arrowBounce 1.35s ease-in-out infinite;
+}
+
+.last-arrow b{
+  animation:arrowBounceUp 1.35s ease-in-out infinite;
+}
+
+.reveal-3d{
+  opacity:0;
+  transform:
+    perspective(1200px)
+    translateY(70px)
+    translateZ(-120px)
+    rotateX(13deg)
+    scale(.90);
+  filter:blur(8px);
+  transition:
+    opacity .85s cubic-bezier(.16,.76,.23,1),
+    transform 1.05s cubic-bezier(.16,.76,.23,1),
+    filter .9s ease;
+  will-change:transform,opacity,filter;
+}
+
+.reveal-3d.visible{
+  opacity:1;
+  transform:
+    perspective(1200px)
+    translateY(0)
+    translateZ(0)
+    rotateX(0)
+    scale(1);
+  filter:blur(0);
+}
+
+.depth-layer{
+  transition:transform .2s ease-out;
+  will-change:transform;
+}
+
+@keyframes bellSwing{
+  0%,100%{transform:rotate(-7deg)}
+  50%{transform:rotate(7deg)}
+}
+
+@keyframes glassSweep{
+  0%,16%{left:-70%;opacity:0}
+  27%{opacity:.72}
+  54%{left:130%;opacity:.30}
+  100%{left:130%;opacity:0}
+}
+
+@keyframes arrowBounce{
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(8px)}
+}
+
+@keyframes arrowBounceUp{
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(-7px)}
+}
+
+@keyframes mistA{
+  0%{transform:translate3d(0,0,0) scale(.92)}
+  100%{transform:translate3d(90px,100px,0) scale(1.15)}
+}
+
+@keyframes mistB{
+  0%{transform:translate3d(0,0,0) scale(1.08)}
+  100%{transform:translate3d(-110px,-80px,0) scale(.94)}
+}
+
+@keyframes orbFloat1{
+  0%{transform:translate3d(0,0,0)}
+  100%{transform:translate3d(-70px,100px,0)}
+}
+
+@keyframes orbFloat2{
+  0%{transform:translate3d(0,0,0)}
+  100%{transform:translate3d(90px,-80px,0)}
+}
+
+@media (max-width:380px){
+  .page{
+    padding-left:12px;
+    padding-right:12px;
+  }
+
+  .glass-card{
+    padding-left:16px;
+    padding-right:16px;
+    border-radius:28px;
+  }
+
+  .ganpati-stage{
+    width:190px;
+    height:190px;
+  }
+
+  .family-name{font-size:34px}
+  .section-heading{font-size:25px}
+  .invite-text{font-size:17px}
+}
+
+@media (min-width:481px){
+  body{
+    background:#0f0704;
+  }
+
+  #invitation{
+    box-shadow:0 0 80px rgba(0,0,0,.48);
+  }
+}
+
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .reveal-3d{
+    opacity:1;
+    transform:none;
+    filter:none;
+    transition:none;
+  }
+  .bell,
+  .gold-mist,
+  .light-orb,
+  .glass-shine,
+  .next-arrow b{
+    animation:none!important;
+  }
+}
+
+
+/* ===== Beige Balaji light-theme readability ===== */
+:root{
+  --cream:#51382c;
+  --brown:#5d3825;
+  --deep:#ead8bd;
+  --glass-border:rgba(255,255,255,.58);
+  --shadow:0 26px 70px rgba(102,65,27,.17);
+}
+
+.glass-card{
+  background:
+    linear-gradient(145deg,rgba(255,255,255,.38),rgba(255,248,235,.16)),
+    radial-gradient(circle at 20% 10%,rgba(255,255,255,.18),transparent 38%);
+  border:1px solid rgba(255,255,255,.58);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.72),
+    inset 0 -1px 0 rgba(148,99,43,.08),
+    0 24px 64px rgba(102,65,27,.16);
+}
+
+.mantra,
+.section-kicker,
+.family-sign{
+  color:#8d571f !important;
+  text-shadow:0 1px 0 rgba(255,255,255,.55) !important;
+}
+
+.family-name,
+.section-heading,
+.final-title{
+  color:#6f341f !important;
+  text-shadow:0 1px 0 rgba(255,255,255,.55) !important;
+}
+
+.hero-card h2,
+.mini-title,
+.invite-text,
+.final-copy,
+.blessing-chip p,
+.address-box p{
+  color:#50382d !important;
+  text-shadow:none !important;
+}
+
+.invite-text strong{
+  color:#8f4a27 !important;
+}
+
+.mini-glass{
+  background:linear-gradient(145deg,rgba(255,255,255,.40),rgba(255,248,235,.18)) !important;
+  border-color:rgba(255,255,255,.52) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.62),
+    0 14px 30px rgba(105,67,29,.10) !important;
+}
+
+.mini-glass small{ color:#806044 !important; }
+.mini-glass strong{ color:#603d2a !important; }
+
+.next-arrow{
+  color:#633d28 !important;
+  background:rgba(255,255,255,.30) !important;
+  border-color:rgba(255,255,255,.48) !important;
+}
+
+.next-arrow b{ color:#8e551e !important; }
+
+.gold-mist{
+  opacity:.18;
+  background:rgba(210,169,104,.55);
+}
+
+.light-orb{
+  opacity:.22;
+  background:radial-gradient(circle,rgba(255,255,255,.92),rgba(226,190,135,.38) 48%,transparent 70%);
+}
+
+/* Page frame adapted for beige */
+.page::before{
+  border-color:rgba(139,91,38,.12);
+  box-shadow:inset 0 0 28px rgba(255,255,255,.08);
+}
+
+
+/* User Tirupati JPG background tuning */
+html,body{
+  background:#ead8bd !important;
+}
+.background{
+  background:#ead8bd !important;
+}
+
+
+/* =========================================================
+   V11 — TRANSPARENT GLASS SEAL OPENING
+   The Tirupati image remains visible behind the opening gate.
+   ========================================================= */
+
+body.intro-lock{
+  overflow:hidden !important;
+  touch-action:none;
+}
+
+.ancient-gate{
+  position:fixed;
+  inset:0;
+  z-index:9999;
+  overflow:hidden;
+  display:grid;
+  place-items:center;
+  background:transparent !important;
+  isolation:isolate;
+  transition:visibility .1s linear 1.45s;
+}
+
+.ancient-gate.opened{
+  visibility:hidden;
+  pointer-events:none;
+}
+
+/* Two frosted glass doors */
+.gate-half{
+  position:absolute;
+  top:0;
+  width:50.25%;
+  height:100%;
+  overflow:hidden;
+
+  background:
+    linear-gradient(135deg,
+      rgba(255,255,255,.17) 0%,
+      rgba(255,243,215,.09) 42%,
+      rgba(198,143,67,.08) 100%) !important;
+
+  border:1px solid rgba(255,235,195,.28);
+  backdrop-filter:blur(18px) saturate(128%);
+  -webkit-backdrop-filter:blur(18px) saturate(128%);
+
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.34),
+    inset 0 -1px 0 rgba(174,115,45,.08),
+    0 0 42px rgba(55,28,8,.13);
+
+  will-change:transform;
+  transition:
+    transform 1.35s cubic-bezier(.72,.02,.19,1),
+    filter 1.2s ease,
+    opacity .8s ease;
+}
+
+/* Remove the old beige paper texture */
+.paper-grain{
+  position:absolute;
+  inset:0;
+  opacity:.24;
+  background:
+    linear-gradient(115deg,
+      transparent 0 28%,
+      rgba(255,255,255,.14) 38%,
+      transparent 49% 100%);
+  pointer-events:none;
+}
+
+.gate-left{
+  left:0;
+  transform-origin:left center;
+  border-right:1px solid rgba(255,215,145,.34);
+}
+
+.gate-right{
+  right:0;
+  transform-origin:right center;
+  border-left:1px solid rgba(255,255,255,.22);
+}
+
+.gate-border{
+  position:absolute;
+  top:2.5%;
+  bottom:2.5%;
+  width:2px;
+  opacity:.55;
+  background:linear-gradient(
+    180deg,
+    transparent,
+    rgba(243,195,103,.50) 15%,
+    rgba(255,244,218,.58) 50%,
+    rgba(204,146,64,.45) 84%,
+    transparent
+  );
+  box-shadow:0 0 14px rgba(242,188,82,.18);
+}
+
+.gate-border-left{ right:6px; }
+.gate-border-right{ left:6px; }
+
+.ancient-gate.opened .gate-left{
+  transform:perspective(1200px) translateX(-104%) rotateY(14deg);
+  filter:blur(1px) brightness(.94);
+  opacity:.76;
+}
+
+.ancient-gate.opened .gate-right{
+  transform:perspective(1200px) translateX(104%) rotateY(-14deg);
+  filter:blur(1px) brightness(.94);
+  opacity:.76;
+}
+
+.gate-content{
+  position:relative;
+  z-index:4;
+  width:min(90vw,430px);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  text-align:center;
+  padding:20px;
+  transition:
+    opacity .42s ease,
+    transform .56s ease,
+    filter .42s ease;
+}
+
+.ancient-gate.opened .gate-content{
+  opacity:0;
+  transform:scale(.82) translateZ(-80px);
+  filter:blur(7px);
+  pointer-events:none;
+}
+
+.gate-mantra{
+  margin:0 0 16px;
+  color:#ffe2a2;
+  font-family:"Tiro Devanagari Marathi","Noto Serif Devanagari",serif;
+  font-size:clamp(1rem,4.1vw,1.28rem);
+  letter-spacing:.02em;
+  text-shadow:
+    0 2px 12px rgba(28,12,2,.75),
+    0 0 18px rgba(226,170,65,.18);
+}
+
+.ancient-seal-button{
+  position:relative;
+  width:min(72vw,330px);
+  aspect-ratio:1;
+  display:grid;
+  place-items:center;
+  padding:0;
+  border:0;
+  border-radius:50%;
+  background:transparent;
+  cursor:pointer;
+  -webkit-tap-highlight-color:transparent;
+  filter:drop-shadow(0 22px 25px rgba(24,10,2,.48));
+  animation:sealFloat 3.4s ease-in-out infinite;
+}
+
+.ancient-seal-button:active{
+  transform:scale(.965);
+}
+
+.seal-glow{
+  position:absolute;
+  inset:2%;
+  border-radius:50%;
+  background:
+    radial-gradient(circle,
+      rgba(255,221,133,.34),
+      rgba(196,128,39,.12) 52%,
+      transparent 72%);
+  filter:blur(15px);
+  animation:sealGlow 2.2s ease-in-out infinite alternate;
+}
+
+/* Transparent PNG: no forced black background or circular crop */
+.ancient-seal-image{
+  position:relative;
+  z-index:2;
+  width:100%;
+  height:100%;
+  object-fit:contain;
+  border-radius:0 !important;
+  border:0 !important;
+  background:transparent !important;
+  box-shadow:none !important;
+  user-select:none;
+  -webkit-user-drag:none;
+}
+
+.gate-family{
+  margin:17px 0 5px;
+  color:#ffe4ab;
+  font-family:"Yatra One","Noto Serif Devanagari",serif;
+  font-size:clamp(1.8rem,8vw,2.65rem);
+  font-weight:400;
+  text-shadow:
+    0 3px 14px rgba(37,16,3,.72),
+    0 0 22px rgba(220,163,58,.15);
+}
+
+.gate-tap{
+  margin:6px 0 0;
+  max-width:330px;
+  color:#fff0d2;
+  font-family:"Mukta",sans-serif;
+  font-size:.94rem;
+  line-height:1.45;
+  text-shadow:0 2px 10px rgba(30,12,2,.72);
+}
+
+.gate-tap-icon{
+  display:block;
+  margin-top:4px;
+  color:#ffd889;
+  font-size:1.7rem;
+  line-height:1;
+  text-shadow:0 2px 10px rgba(30,12,2,.72);
+  animation:gateArrow 1.3s ease-in-out infinite;
+}
+
+@keyframes sealFloat{
+  0%,100%{ transform:translateY(0) scale(1); }
+  50%{ transform:translateY(-7px) scale(1.012); }
+}
+
+@keyframes sealGlow{
+  from{ opacity:.48; transform:scale(.96); }
+  to{ opacity:.94; transform:scale(1.05); }
+}
+
+@keyframes gateArrow{
+  0%,100%{ transform:translateY(0); opacity:.58; }
+  50%{ transform:translateY(7px); opacity:1; }
+}
+
+@media (max-height:700px){
+  .ancient-seal-button{ width:min(58vw,250px); }
+  .gate-mantra{ margin-bottom:8px; }
+  .gate-family{ margin-top:9px; font-size:1.75rem; }
+  .gate-tap{ font-size:.84rem; }
+}
+
+@media (prefers-reduced-motion:reduce){
+  .ancient-seal-button,
+  .gate-tap-icon,
+  .seal-glow{ animation:none !important; }
+  .gate-half{ transition-duration:.7s; }
+}
+
+/* =========================================================
+   V11 — FORCE TIRUPATI BACKGROUND VISIBLE
+   These selectors match the CURRENT index.html exactly.
+   ========================================================= */
+
+html,
+body{
+  background:#dec39b !important; /* beige fallback, never maroon */
+}
+
+.background{
+  position:fixed !important;
+  inset:0 !important;
+  z-index:0 !important;
+  overflow:hidden !important;
+  pointer-events:none !important;
+  background:#dec39b !important;
+}
+
+.temple-photo{
+  display:block !important;
+  position:absolute !important;
+  inset:-3% !important;
+  z-index:0 !important;
+  opacity:1 !important;
+  visibility:visible !important;
+
+  background-image:url("tirupati-temple.jpg?v=11") !important;
+  background-repeat:no-repeat !important;
+  background-size:cover !important;
+  background-position:center center !important;
+
+  transform:scale(1.045);
+  filter:saturate(.98) contrast(1.01) brightness(.90) !important;
+  will-change:transform;
+}
+
+/* Image is intentionally clearer; only a gentle golden/readability tint. */
+.temple-overlay{
+  display:block !important;
+  position:absolute !important;
+  inset:0 !important;
+  z-index:1 !important;
+  background:
+    linear-gradient(180deg,
+      rgba(57,26,5,.10) 0%,
+      rgba(76,35,8,.13) 48%,
+      rgba(30,13,3,.26) 100%),
+    radial-gradient(circle at 50% 18%,
+      rgba(255,221,151,.11),
+      transparent 38%) !important;
+  box-shadow:
+    inset 0 0 85px rgba(0,0,0,.10),
+    inset 0 -80px 90px rgba(18,8,2,.13) !important;
+}
+
+#invitation{
+  position:relative !important;
+  z-index:2 !important;
+}
+
+.bells-layer{
+  z-index:3 !important;
+}
+
+
+/* ===== V12: guaranteed Tirupati image + real hanging bells ===== */
+html,body{background:#d9bea0 !important;}
+
+.background{
+  position:fixed !important;
+  inset:0 !important;
+  z-index:0 !important;
+  overflow:hidden !important;
+  pointer-events:none !important;
+  background:#d9bea0 !important;
+}
+
+.temple-photo{display:none !important;}
+
+.temple-bg-image{
+  position:absolute !important;
+  top:50% !important;
+  left:50% !important;
+  width:100% !important;
+  height:100% !important;
+  object-fit:cover !important;
+  object-position:center center !important;
+  transform:translate(-50%,-50%) scale(1.03) !important;
+  display:block !important;
+  opacity:1 !important;
+  visibility:visible !important;
+  z-index:0 !important;
+  filter:brightness(.90) saturate(1.02) contrast(1.02) !important;
+  will-change:transform;
+}
+
+.temple-overlay{
+  position:absolute !important;
+  inset:0 !important;
+  z-index:1 !important;
+  background:
+    linear-gradient(180deg,rgba(30,10,0,.04),rgba(38,14,0,.08) 50%,rgba(20,7,0,.20)),
+    radial-gradient(circle at 50% 18%,rgba(255,228,171,.08),transparent 42%) !important;
+  box-shadow:inset 0 0 70px rgba(0,0,0,.07),inset 0 -90px 120px rgba(0,0,0,.12) !important;
+}
+
+#invitation{position:relative !important;z-index:3 !important;}
+.bells-layer{display:none !important;}
+
+.real-bells-layer{
+  position:fixed;
+  inset:0;
+  z-index:8;
+  pointer-events:none;
+  overflow:hidden;
+}
+
+.real-bell{
+  position:absolute;
+  top:-2px;
+  width:min(23vw,110px);
+  transform-origin:50% 0%;
+  filter:drop-shadow(0 10px 12px rgba(0,0,0,.35));
+  will-change:transform;
+}
+
+.real-bell img{
+  width:100%;
+  height:auto;
+  display:block;
+  mix-blend-mode:screen;
+  user-select:none;
+  -webkit-user-drag:none;
+}
+
+.bell-left{
+  left:-2px;
+  animation:bellSwingL 2.7s ease-in-out infinite;
+}
+
+.bell-right{
+  right:-2px;
+  animation:bellSwingR 2.7s ease-in-out infinite .18s;
+}
+
+@keyframes bellSwingL{
+  0%,100%{transform:rotate(-5deg);}
+  25%{transform:rotate(7deg);}
+  50%{transform:rotate(-3deg);}
+  75%{transform:rotate(5deg);}
+}
+
+@keyframes bellSwingR{
+  0%,100%{transform:scaleX(-1) rotate(-5deg);}
+  25%{transform:scaleX(-1) rotate(7deg);}
+  50%{transform:scaleX(-1) rotate(-3deg);}
+  75%{transform:scaleX(-1) rotate(5deg);}
+}
+
+/* Transparent glass opening gate */
+.ancient-gate{background:transparent !important;}
+
+.gate-half{
+  background:linear-gradient(135deg,rgba(255,255,255,.14),rgba(255,239,207,.07) 45%,rgba(177,117,42,.07)) !important;
+  backdrop-filter:blur(12px) saturate(120%) !important;
+  -webkit-backdrop-filter:blur(12px) saturate(120%) !important;
+  border-color:rgba(255,230,181,.24) !important;
+}
+
+.paper-grain{
+  opacity:.16 !important;
+  background:linear-gradient(115deg,transparent 0 28%,rgba(255,255,255,.12) 38%,transparent 50% 100%) !important;
+}
+
+@media(max-width:600px){
+  .real-bell{width:min(22vw,94px);}
+  .gate-content{padding-top:36px !important;}
+}
+
+
+/* ===== V13: Stronger "पुढे पहा" + down arrow visibility ===== */
+.next-arrow{
+  min-width:150px !important;
+  min-height:62px !important;
+  padding:7px 20px 5px !important;
+  bottom:18px !important;
+
+  background:rgba(28,12,3,.54) !important;
+  border:1.5px solid rgba(255,221,145,.72) !important;
+  box-shadow:
+    0 8px 24px rgba(0,0,0,.34),
+    inset 0 1px 0 rgba(255,255,255,.20),
+    0 0 16px rgba(229,171,61,.12) !important;
+
+  backdrop-filter:blur(12px) !important;
+  -webkit-backdrop-filter:blur(12px) !important;
+}
+
+.next-arrow span{
+  display:block !important;
+  color:#fff4d9 !important;
+  font-family:"Mukta","Noto Serif Devanagari",sans-serif !important;
+  font-size:16px !important;
+  line-height:1.2 !important;
+  font-weight:800 !important;
+  letter-spacing:.01em !important;
+  opacity:1 !important;
+  text-shadow:
+    0 2px 5px rgba(0,0,0,.85),
+    0 0 10px rgba(255,216,127,.16) !important;
+}
+
+.next-arrow b{
+  display:block !important;
+  margin-top:1px !important;
+  color:#ffd66f !important;
+  font-size:42px !important;
+  line-height:.72 !important;
+  font-weight:900 !important;
+  opacity:1 !important;
+  text-shadow:
+    0 2px 6px rgba(0,0,0,.88),
+    0 0 12px rgba(255,202,82,.30) !important;
+  filter:drop-shadow(0 2px 2px rgba(0,0,0,.48));
+}
+
+/* Last page upward indicator gets the same visibility */
+.last-arrow span{
+  font-weight:800 !important;
+  color:#fff4d9 !important;
+}
+
+.last-arrow b{
+  color:#ffd66f !important;
+  font-weight:900 !important;
+}
+
+/* Keep the control above glass cards and background */
+.next-arrow{
+  z-index:20 !important;
+}
